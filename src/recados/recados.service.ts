@@ -46,6 +46,7 @@ export class RecadosService {
   }
 
   async update(id: number, updateRecadoDto: UpdateRecadoDto) {
+
     const partialUpdateRecadoDto = {
       lido: updateRecadoDto?.lido,
       texto: updateRecadoDto?.texto,
@@ -60,6 +61,7 @@ export class RecadosService {
     await this.recadoRepository.save(recado);
 
     return recado;
+
   }
 
   async remove(id: number) {
