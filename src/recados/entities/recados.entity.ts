@@ -1,28 +1,43 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Pessoa } from 'src/pessoas/entities/pessoa.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Recado {
   @PrimaryGeneratedColumn()
-  id: number; // automatico sequencial 1 2 3 4 5 ...
-  
-  @Column({type: 'varchar', length: 255}) // sem valores dentro de Column vai passar como texto
+  id: number;
+
+  @Column({ type: 'varchar', length: 255 })
   texto: string;
 
-  @Column({type: 'varchar', length: 50})
-  de: string;
-  
-  @Column({type: 'varchar', length: 50})
-  para: string;
-
-  @Column({default: false})
+  @Column({ default: false })
   lido: boolean;
 
   @Column()
-  data: Date;
-  
+  data: Date; // createdAt
+
   @CreateDateColumn()
-  createdAt?: Date;
-  
+  createdAt?: Date; // createdAt
+
   @UpdateDateColumn()
-  updatedAt?: Date;
+  updatedAt?: Date; // updatedAt
+
+  // Muitos recados podem ser enviados por uma única pessoa (emissor)
+  @ManyToOne(() => Pessoa)
+  // Especifica a coluna "de" que armazena o ID da pessoa que enviou o recado
+  @JoinColumn({ name: 'de' })
+  de: Pessoa;
+
+  // Muitos recados podem ser enviados para uma única pessoa (destinatário)
+  @ManyToOne(() => Pessoa)
+  // Especifica a coluna "para" que armazena o ID da pessoa que recebe o recado
+  @JoinColumn({ name: 'para' })
+  para: Pessoa;
 }
