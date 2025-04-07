@@ -6,15 +6,17 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { RecadosService } from './recados.service';
 import { CreateRecadoDto } from './dto/create-recado.dto';
 import { UpdateRecadoDto } from './dto/update-recado.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { AddHeaderInterceptor } from 'src/common/interceptors/add-header.interceptor';
+import { AuthTokenInterceptor } from 'src/common/interceptors/auth-token.interceptor';
 
 // CRUD
 // Create -> POST -> Criar um recado
@@ -29,6 +31,7 @@ import { PaginationDto } from 'src/common/dto/pagination.dto';
 // DTO - Data Transfer Object -> Objeto de transferência de dados
 // DTO -> Objeto simples -> Validar dados / Transformar dados
 
+@UseInterceptors(AuthTokenInterceptor)
 @Controller('recados')
 export class RecadosController {
   constructor(private readonly recadosService: RecadosService) {}
@@ -36,14 +39,15 @@ export class RecadosController {
   @HttpCode(HttpStatus.OK)
   @Get()
   async findAll(@Query() paginationDto: PaginationDto) {
+    // console.log('RecadosController findAll executado');
     // return `Retorna todos os recados. Limit=${limit}, Offset=${offset}.`;
     const recados = await this.recadosService.findAll(paginationDto);
     return recados;
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.recadosService.findOne(id);
+  findOne(@Param('id') id: string) {
+    return this.recadosService.findOne(+id);
   }
 
   @Post()
@@ -52,15 +56,12 @@ export class RecadosController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateRecadoDto: UpdateRecadoDto,
-  ) {
+  update(@Param('id') id: number, @Body() updateRecadoDto: UpdateRecadoDto) {
     return this.recadosService.update(id, updateRecadoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: number) {
     return this.recadosService.remove(id);
   }
 }
