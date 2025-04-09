@@ -5,6 +5,7 @@ import { RecadosModule } from './recados/recados.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PessoasModule } from './pessoas/pessoas.module';
 import { SimpleMiddleware } from './common/middlewares/simple.middleware';
+import { OutroMiddleware } from './common/middlewares/outro.middleware';
 
 @Module({
   imports: [
@@ -29,7 +30,9 @@ import { SimpleMiddleware } from './common/middlewares/simple.middleware';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer){
     //throw new Error ('Method not implemented')
-    consumer.apply(SimpleMiddleware).forRoutes({
+    consumer.apply(SimpleMiddleware, OutroMiddleware).forRoutes({ //a ordem dos 
+      //middlewares no apply deve ser seguida ou podemos repetir o consumer
+
       path: 'recados', //poderia passar o recados/* para as demais rotas ou :id 
       method: RequestMethod.ALL,
     });
