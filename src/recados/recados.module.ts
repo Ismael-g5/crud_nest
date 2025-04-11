@@ -8,6 +8,8 @@ import { PessoasModule } from 'src/pessoas/pessoas.module';
 @Module({
   imports: [TypeOrmModule.forFeature([Recado]), PessoasModule],
   controllers: [RecadosController],
-  providers: [RecadosService],
+  providers: [RecadosService
+    
+  ],
 })
 export class RecadosModule {}

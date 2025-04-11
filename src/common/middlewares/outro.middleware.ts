@@ -20,8 +20,8 @@ export class OutroMiddleware implements NestMiddleware {
     //   message: 'Não encontrado',
     // });
 
-    next();
-
+    next(); //passa para  o proximo middleware
+      // caso usarmos o return next, para no middleware atual podemos tbm lançar excesões
     console.log('OutroMiddleware: Tchau');
   }
 }
