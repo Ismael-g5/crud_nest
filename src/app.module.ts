@@ -1,6 +1,3 @@
-
-
-
 import {
   MiddlewareConsumer,
   Module,
@@ -13,9 +10,7 @@ import { RecadosModule } from 'src/recados/recados.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PessoasModule } from 'src/pessoas/pessoas.module';
 import { SimpleMiddleware } from 'src/common/middlewares/simple.middleware';
-import { OutroMiddleware } from 'src/common/middlewares/outro.middleware';
 import { APP_FILTER } from '@nestjs/core';
-import { MyExceptionFilter } from 'src/common/filters/my-exception.filter';
 import { ErrorExceptionFilter } from 'src/common/filters/error-exception.filter';
 
 @Module({
@@ -24,11 +19,11 @@ import { ErrorExceptionFilter } from 'src/common/filters/error-exception.filter'
       type: 'mysql',
       host: 'localhost',
       port: 3306,
-      username:'ismael',
+      username: 'ismael',
       database: 'crud_nest',
       password: 'MC133011',
-      autoLoadEntities: true, // carrega entidades sem precisa especificar
-      synchronize: true, //não deve ser usado em produção
+      autoLoadEntities: true, // Carrega entidades sem precisar especifica-las
+      synchronize: true, // Sincroniza com o BD. Não deve ser usado em produção
     }),
     RecadosModule,
     PessoasModule,
@@ -46,10 +41,6 @@ import { ErrorExceptionFilter } from 'src/common/filters/error-exception.filter'
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(SimpleMiddleware).forRoutes({
-      path: '*',
-      method: RequestMethod.ALL,
-    });
-    consumer.apply(OutroMiddleware).forRoutes({
       path: '*',
       method: RequestMethod.ALL,
     });

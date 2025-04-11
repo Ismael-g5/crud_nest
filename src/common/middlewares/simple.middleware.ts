@@ -8,8 +8,9 @@ export class SimpleMiddleware implements NestMiddleware {
 
     if (authorization) {
       req['user'] = {
-        nome: 'Ismael',
-        sobrenome: 'Guedes',
+        nome: 'ismael',
+        sobrenome: 'guedes',
+        role: 'admin', // regra usada pra validação no guards
       };
     }
 
