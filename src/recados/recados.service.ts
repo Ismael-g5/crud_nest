@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PessoasService } from 'src/pessoas/pessoas.service';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { RecadosUtils } from './recados.utils';
 
 @Injectable()
 export class RecadosService {
@@ -13,6 +14,7 @@ export class RecadosService {
     @InjectRepository(Recado)
     private readonly recadoRepository: Repository<Recado>,
     private readonly pessoasService: PessoasService,
+    private readonly recadosUtils: RecadosUtils // aqui ja injeta a dependencia
   ) {}
 
   throwNotFoundError() {
@@ -21,7 +23,8 @@ export class RecadosService {
 
   async findAll(paginationDto?: PaginationDto) {
     const { limit = 10, offset = 0 } = paginationDto || {}; // 🔹 Garante que paginationDto nunca seja undefined
-  
+    console.log(this.recadosUtils.invertString('Ismael'));
+    
     const recados = await this.recadoRepository.find({
       take: limit,
       skip: offset,

@@ -9,6 +9,7 @@ import { PessoasModule } from 'src/pessoas/pessoas.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
+      connectorPackage: 'mysql2',
       host: 'localhost',
       port: 3306,
       username: 'ismael',
