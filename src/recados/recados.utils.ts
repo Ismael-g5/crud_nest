@@ -7,4 +7,13 @@ export class RecadosUtils{
   }
 }
 
+// classe mock para fins de teste
+@Injectable()
+export class RecadosUtilsMock{
+  invertString(){
+    return 'teste 1 2 3';
+  }
+}
+
+
 //esse return inverte a string passada

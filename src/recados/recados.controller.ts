@@ -10,6 +10,7 @@ import {
   Query,
   Req,
   UseGuards,
+  Inject
 } from '@nestjs/common';
 import { RecadosService } from './recados.service';
 import { CreateRecadoDto } from './dto/create-recado.dto';
@@ -19,6 +20,8 @@ import { AuthTokenInterceptor } from 'src/common/interceptors/auth-token.interce
 import { Request } from 'express';
 import { IsAdminGuard } from 'src/common/guards/is-admin.guard';
 import { ReqDataParam } from 'src/common/params/rer-params.decorator';
+import type { RecadosUtils } from './recados.utils';
+import { SERVER_NAME } from 'src/common/constants/server-name.contant';
 
 // CRUD
 // Create -> POST -> Criar um recado
@@ -35,10 +38,19 @@ import { ReqDataParam } from 'src/common/params/rer-params.decorator';
 
 @Controller('recados')
 export class RecadosController {
-  constructor(private readonly recadosService: RecadosService) { }
+  constructor(
+    private readonly recadosService: RecadosService,
+    private readonly recadosUtils: RecadosUtils,
+    
+    @Inject(SERVER_NAME) // aqui precisamos passar o inject com o valor do provide
+    // no .module
+    private readonly serverName: string,
+
+  ) { }
 
   @Get()
   async findAll(@Query() paginationDto: PaginationDto,
+  
   @ReqDataParam('url') url,
 
   ) {
@@ -46,6 +58,7 @@ export class RecadosController {
     //chamada do url
     console.log(url);
 
+    console.log(this.serverName);
 
     const recados = await this.recadosService.findAll(paginationDto);
 
