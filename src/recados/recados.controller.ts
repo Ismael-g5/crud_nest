@@ -20,8 +20,12 @@ import { AuthTokenInterceptor } from 'src/common/interceptors/auth-token.interce
 import { Request } from 'express';
 import { IsAdminGuard } from 'src/common/guards/is-admin.guard';
 import { ReqDataParam } from 'src/common/params/rer-params.decorator';
-import type { RecadosUtils } from './recados.utils';
-import { SERVER_NAME } from 'src/common/constants/server-name.contant';
+import { RecadosUtils } from './recados.utils';
+//import { SERVER_NAME } from 'src/recados/entities/server-name.contant';
+import type { RegexProtocol } from 'src/common/regex/regex.protocol';
+import { RemoveSpacesRegex } from 'src/common/regex/remove-spaces.regex';
+import { REMOVE_SPACES_REGEX } from './entities/recados.contants';
+import type { OnlyLowercaseLettersRegex } from 'src/common/regex/only-lowercase-letters.regex';
 
 // CRUD
 // Create -> POST -> Criar um recado
@@ -41,10 +45,16 @@ export class RecadosController {
   constructor(
     private readonly recadosService: RecadosService,
     private readonly recadosUtils: RecadosUtils,
+    //private readonly removeSpacesRegex: RegexProtocol, ou
+    @Inject(REMOVE_SPACES_REGEX)
+    private readonly removeSpacesRegex: RemoveSpacesRegex,
+
+    @Inject('ONLY_LOWERCASE_LETTERS_REGEX')
+    private readonly onlyLowercaseLettersRegex: OnlyLowercaseLettersRegex,
     
-    @Inject(SERVER_NAME) // aqui precisamos passar o inject com o valor do provide
+  //  @Inject(SERVER_NAME) // aqui precisamos passar o inject com o valor do provide
     // no .module
-    private readonly serverName: string,
+    //private readonly serverName: string,
 
   ) { }
 
@@ -58,7 +68,9 @@ export class RecadosController {
     //chamada do url
     console.log(url);
 
-    console.log(this.serverName);
+   // console.log(this.serverName);
+
+    console.log(this.removeSpacesRegex.execute('REMOVE OS ESPACOS'))
 
     const recados = await this.recadosService.findAll(paginationDto);
 
