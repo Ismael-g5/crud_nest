@@ -11,10 +11,15 @@ import { OnlyLowercaseLettersRegex } from 'src/common/regex/only-lowercase-lette
 import { RegexProtocol } from 'src/common/regex/regex.protocol';
 import { REMOVE_SPACES_REGEX } from './entities/recados.contants';
 import { RegexFactory } from 'src/common/regex/regex.factory';
+import { MyDynamicModule } from 'src/my-dynamic/my-dynamic.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Recado]),
-  forwardRef(() => PessoasModule)],
+  forwardRef(() => PessoasModule),
+  MyDynamicModule.register({
+    apiKey: 'Aqui vem a API KEY',
+    apiUrl: 'Aqui é a URL da API'
+  })],
   controllers: [RecadosController],
   providers: [
     RecadosService,

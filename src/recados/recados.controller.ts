@@ -26,6 +26,7 @@ import type { RegexProtocol } from 'src/common/regex/regex.protocol';
 import { RemoveSpacesRegex } from 'src/common/regex/remove-spaces.regex';
 import { REMOVE_SPACES_REGEX } from './entities/recados.contants';
 import type { OnlyLowercaseLettersRegex } from 'src/common/regex/only-lowercase-letters.regex';
+import { MY_DYNAMIC_CONFIG, type MyDynamicModuleConfigs } from 'src/my-dynamic/my-dynamic.module';
 
 // CRUD
 // Create -> POST -> Criar um recado
@@ -45,18 +46,11 @@ export class RecadosController {
   constructor(
     private readonly recadosService: RecadosService,
     private readonly recadosUtils: RecadosUtils,
-    //private readonly removeSpacesRegex: RegexProtocol, ou
-    @Inject(REMOVE_SPACES_REGEX)
-    private readonly removeSpacesRegex: RemoveSpacesRegex,
-
-    @Inject('ONLY_LOWERCASE_LETTERS_REGEX')
-    private readonly onlyLowercaseLettersRegex: OnlyLowercaseLettersRegex,
-    
-  //  @Inject(SERVER_NAME) // aqui precisamos passar o inject com o valor do provide
-    // no .module
-    //private readonly serverName: string,
-
-  ) { }
+    @Inject(MY_DYNAMIC_CONFIG)
+    private readonly myDynamicConfigs: MyDynamicModuleConfigs,
+  ) {
+    //caso queira pode chamar aqui mesmo -> console.log('RecadosController', this.myDynamicConfigs)
+   }
 
   @Get()
   async findAll(@Query() paginationDto: PaginationDto,
@@ -70,7 +64,7 @@ export class RecadosController {
 
    // console.log(this.serverName);
 
-    console.log(this.removeSpacesRegex.execute('REMOVE OS ESPACOS'))
+
 
     const recados = await this.recadosService.findAll(paginationDto);
 
