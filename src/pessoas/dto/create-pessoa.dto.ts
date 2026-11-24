@@ -14,7 +14,7 @@ export class CreatePessoaDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(5)
-  password: string;
+  password: string; // Será convertida em hash
 
   @IsString()
   @IsNotEmpty()
